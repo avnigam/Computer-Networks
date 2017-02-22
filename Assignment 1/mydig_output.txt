@@ -1,0 +1,48 @@
+For domain "google.com" with flags A, NS & MX:
+
+;QUESTION
+google.com. IN A
+;ANSWER
+google.com. 300 IN A 216.58.213.206
+
+;QUESTION
+google.com. IN NS
+;ANSWER
+google.com. 345600 IN NS ns3.google.com.
+google.com. 345600 IN NS ns2.google.com.
+google.com. 345600 IN NS ns4.google.com.
+google.com. 345600 IN NS ns1.google.com.
+
+;QUESTION
+google.com. IN MX
+;ANSWER
+google.com. 600 IN MX 20 alt1.aspmx.l.google.com.
+google.com. 600 IN MX 30 alt2.aspmx.l.google.com.
+google.com. 600 IN MX 50 alt4.aspmx.l.google.com.
+google.com. 600 IN MX 10 aspmx.l.google.com.
+google.com. 600 IN MX 40 alt3.aspmx.l.google.com.
+
+
+For domain "google.co.jp" with flags A, NS & MX:
+
+;QUESTION
+google.co.jp. IN A
+;ANSWER
+google.co.jp. 300 IN A 216.58.213.195
+
+;QUESTION
+google.co.jp. IN NS
+;ANSWER
+google.co.jp. 345600 IN NS ns4.google.com.
+google.co.jp. 345600 IN NS ns1.google.com.
+google.co.jp. 345600 IN NS ns3.google.com.
+google.co.jp. 345600 IN NS ns2.google.com.
+
+;QUESTION
+google.co.jp. IN MX
+;ANSWER
+google.co.jp. 600 IN MX 20 alt1.aspmx.l.google.com.
+google.co.jp. 600 IN MX 30 alt2.aspmx.l.google.com.
+google.co.jp. 600 IN MX 40 alt3.aspmx.l.google.com.
+google.co.jp. 600 IN MX 10 aspmx.l.google.com.
+google.co.jp. 600 IN MX 50 alt4.aspmx.l.google.com.

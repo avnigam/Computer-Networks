@@ -1,0 +1,68 @@
+The python program parses the tcp data on a very high level. The library used is dpkt.
+We use the library to parse extract the individual packet buffers and then use the struct within python to parse out each of the values from the buffer.
+We create a Packet class and stores all the components of the tcp header in it. We also store the mss value for later usage.
+This code also contains the parts required to answer the questions in the assignment.
+
+1. No. of TCP Flows = 3
+To calculate the no. of TCP Flows, we look for the no. of syn-ack based handshakes happening.
+No. of handshakes correspond to no. of unique TCP flows.
+
+2. 
+To calculate the first two transactions after the handshakes, we move through the packets going from source towards the destination and compare it's sequence number with the acknowledgement number of the packets coming from the destination towards the source. We add it to the set and exit once the length is 2 for each flow. The window size shown is 2^14 * window size extracted from the packet.
+
+To calculate the throughput, we add the data of all the packets going from source to destination in each flow and divide it but the total time difference between first packet sent and last packet received.
+
+To calculate number of no. of packets sent, we just add all the packets going from source to destination. To calculate no. of packets retransmitted, we add the sequence number of packets going from source to destination and whenever we see a sequence number existing, we increase a global counter of retransmittion. Loss rate =  (Total Packets Retransmitted)/(Total No. of Packets Sent).
+
+To calculate average RTT, we calculate time between each transaction from source to destination and back and compare the sequence number to the acknowledgement number for each transaction. Then we sum all the values and divide it by the total number of RTTs to get average RTT value.
+
+For calculating the theoritical throughput, we use the formula: (sqrt(3/2) * MSS)/(sqrt(p) * average RTT). 
+p: Loss Rate
+MSS: Maximum Segment Size which is present in the options field of the syn-ack packet.
+
+There is difference between empharical throughput and theoritical throughput because empharical throughput is calculated based on actual data transfer and time taken for the transfer where as theoritical throughput uses constant factor like MSS and averaged out values of loss rate and RTT for its calculation.
+
+Transaction Data Format: (Request Sequence Number, Request Ack Number, Response Sequence Number, Response Ack Number, Receive Window Size)
+
+Flow 1: (a) First two transaction:
+		(3636173852, 2335809728, 2335809728, 3636173876, 49152)
+		(3636173876, 2335809728, 2335809728, 3636175324, 49152)
+
+		(b) Throughput: 1285424.88902
+		
+		(c) Total No. of Packets Sent: 7068
+			Total Packets Retransmitted: 94
+			Loss Rate = 0.0133
+			
+		(d) Average RTT = 0.167151638035
+			MSS: 1460
+			Theoritical Throughput: 92760.629
+		
+Flow 2: (a) First two transaction:
+		(2558634630, 3429921723, 3429921723, 2558634654, 49152)
+		(2558634654, 3429921723, 3429921723, 2558636102, 49152)
+
+		(b) Throughput: 1481548.3748
+		
+		(c) Total No. of Packets Sent: 729
+			Total Packets Retransmitted: 0
+			Loss Rate = 0
+			
+		(d) Average RTT: 0.0720596951351
+			MSS: 1460
+			Theoritical Throughput: Infinity
+			
+Flow 3: (a) First two transaction:
+		(705669103, 1921750144, 1921750144, 705669103, 49152)
+		(705669127, 1921750144, 1921750144, 705670575, 49152)
+
+		(b) Throughput: 5251440.93545
+		
+		(c) Total No. of Packets Sent: 6977
+			Total Packets Retransmitted: 3
+			Loss Rate = 0.00043
+		
+		(d) Average RTT: 0.0731438426165
+			MSS: 1460
+			Theoritical Throughput: 1178987.774
+		

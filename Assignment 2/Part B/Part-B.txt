@@ -1,0 +1,51 @@
+The tcp analysis code from part A is used to answer the question in this section.
+We have provided the initial congestion window and consective congestion window. To calculate the congestion windows, we look for the ack from the destination and latest packet being sent from the source to the destination. The difference between the sequence number of the lastest packet being sent from source to destination and the ack number of the packet from the destination; this will give us the total number of bytes in transit before and acknowledgement is sent which is the congestion window.
+
+The congestion window size increases due to the additive increase property of the congestion control which increases as long as it does not see a packet loss and decreases once it receives a packet loss.
+ 
+To calculate the no. of retransmission due to triple ack, we maintain a map of acknowledgement number of the packets coming from destination to source, and keep increasing the count of acknowledgement number in the map for which packet is repeated. We can then see the number of entries for which value is greater than 2, that will give the number of packet loss due to triple acknowledgement.
+
+To calculate the no. of retransmission due to no ack, calculate the difference of number of total retransmission and the number of retransmission due to triple ack.
+
+Flow 1:		
+
+(a) MSS: 1460
+	Initial Congestion Window: 10 * MSS = 1460
+
+	Congestion Window: 11584
+	Congestion Window: 13032
+	Congestion Window: 15928
+	Congestion Window: 17376
+	Congestion Window: 17376
+
+(b)	Triple Ack Loss: 38
+	No Ack Loss: 56
+
+
+Flow 2:
+
+(a) MSS: 1460
+	Initial Congestion Window: 10 * MSS = 1460
+
+	Congestion Window: 11584
+	Congestion Window: 13032
+	Congestion Window: 26064
+	Congestion Window: 27512
+	Congestion Window: 24616
+
+(b)	Triple Ack Loss: 0
+	No Ack Loss: 0
+
+
+Flow 3:
+(a)	MSS: 1460
+	Initial Congestion Window: 10 * MSS = 1460
+
+	Congestion Window: 11584
+	Congestion Window: 13032
+	Congestion Window: 14480
+	Congestion Window: 15928
+	Congestion Window: 17376
+
+(b)	Triple Ack Loss: 2
+	No Ack Loss: 1
